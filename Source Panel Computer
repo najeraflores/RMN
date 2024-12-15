@@ -1,0 +1,219 @@
+% Source-Panel Method for Airfoil Analysis
+
+% Load Airfoil Data (provided coordinates)
+data = [0.00,  0.0000,  0.00000;
+    0.00,  0.0108, -0.01077;
+    0.01,  0.0166, -0.01658;
+    0.01,  0.0224, -0.02240;
+    0.02,  0.0296, -0.02960;
+    0.03,  0.0346, -0.03450;
+    0.04,  0.0383, -0.03820;
+    0.05,  0.0414, -0.04130;
+    0.06,  0.0440, -0.04390;
+    0.07,  0.0463, -0.04620;
+    0.08,  0.0484, -0.04830;
+    0.09,  0.0502, -0.05010;
+    0.10,  0.0519, -0.05180;
+    0.11,  0.0535, -0.05340;
+    0.12,  0.0549, -0.05490;
+    0.13,  0.0562, -0.05620;
+    0.14,  0.0574, -0.05740;
+    0.15,  0.0586, -0.05860;
+    0.16,  0.0597, -0.05970;
+    0.17,  0.0607, -0.06070;
+    0.18,  0.0616, -0.06160;
+    0.19,  0.0625, -0.06250;
+    0.20,  0.0633, -0.06330;
+    0.21,  0.0641, -0.06410;
+    0.22,  0.0648, -0.06480;
+    0.23,  0.0654, -0.06550;
+    0.24,  0.0660, -0.06610;
+    0.25,  0.0665, -0.06670;
+    0.26,  0.0670, -0.06720;
+    0.27,  0.0675, -0.06770;
+    0.28,  0.0679, -0.06810;
+    0.29,  0.0683, -0.06850;
+    0.30,  0.0686, -0.06880;
+    0.31,  0.0689, -0.06910;
+    0.32,  0.0692, -0.06930;
+    0.33,  0.0694, -0.06950;
+    0.34,  0.0696, -0.06960;
+    0.35,  0.0697, -0.06970;
+    0.36,  0.0698, -0.06970;
+    0.37,  0.0699, -0.06970;
+    0.38,  0.0699, -0.06960;
+    0.39,  0.0699, -0.06950;
+    0.40,  0.0699, -0.06930;
+    0.41,  0.0698, -0.06910;
+    0.42,  0.0697, -0.06880;
+    0.43,  0.0696, -0.06850;
+    0.44,  0.0695, -0.06810;
+    0.45,  0.0693, -0.06770;
+    0.46,  0.0691, -0.06720;
+    0.47,  0.0689, -0.06670;
+    0.48,  0.0686, -0.06610;
+    0.49,  0.0683, -0.06540;
+    0.50,  0.0680, -0.06460;
+    0.51,  0.0676, -0.06370;
+    0.52,  0.0672, -0.06270;
+    0.53,  0.0668, -0.06160;
+    0.54,  0.0663, -0.06040;
+    0.55,  0.0658, -0.05910;
+    0.56,  0.0653, -0.05770;
+    0.57,  0.0647, -0.05620;
+    0.58,  0.0641, -0.05460;
+    0.59,  0.0635, -0.05290;
+    0.60,  0.0628, -0.05110;
+    0.61,  0.0621, -0.04920;
+    0.62,  0.0613, -0.04730;
+    0.63,  0.0605, -0.04530;
+    0.64,  0.0597, -0.04330;
+    0.65,  0.0588, -0.04120;
+    0.66,  0.0579, -0.03910;
+    0.67,  0.0569, -0.03700;
+    0.68,  0.0559, -0.03480;
+    0.69,  0.0548, -0.03260;
+    0.70,  0.0537, -0.03040;
+    0.71,  0.0525, -0.02820;
+    0.72,  0.0513, -0.02600;
+    0.73,  0.0500, -0.02380;
+    0.74,  0.0487, -0.02160;
+    0.75,  0.0473, -0.01940;
+    0.76,  0.0458, -0.01730;
+    0.77,  0.0443, -0.01520;
+    0.78,  0.0427, -0.01320;
+    0.79,  0.0411, -0.01130;
+    0.80,  0.0394, -0.00950;
+    0.81,  0.0376, -0.00790;
+    0.82,  0.0358, -0.00640;
+    0.83,  0.0339, -0.00500;
+    0.84,  0.0319, -0.00380;
+    0.85,  0.0299, -0.00280;
+    0.86,  0.0278, -0.00200;
+    0.87,  0.0256, -0.00140;
+    0.88,  0.0234, -0.00100;
+    0.89,  0.0211, -0.00080;
+    0.90,  0.0187, -0.00090;
+    0.91,  0.0162, -0.00120;
+    0.92,  0.0137, -0.00170;
+    0.93,  0.0111, -0.00250;
+    0.94,  0.0084, -0.00360;
+    0.95,  0.0056, -0.00500;
+    0.96,  0.0027, -0.00670;
+    0.97, -0.0002, -0.00870;
+    0.98, -0.0032, -0.01100;
+    0.99, -0.0063, -0.01360;
+    1.00, -0.0095, -0.01650;
+    1.01, -0.0126, -0.01408;
+    1.02, -0.0157, -0.01353;
+    1.03, -0.0188, -0.01298;
+    1.04, -0.0219, -0.01243;
+    1.05, -0.0250, -0.01188;
+    1.06, -0.0281, -0.01133;
+    1.07, -0.0312, -0.01078;
+    1.08, -0.0343, -0.01023;
+    1.09, -0.0374, -0.00968;
+    1.10, -0.0405, -0.00913;
+    1.11, -0.0436, -0.00858;
+    1.12, -0.0467, -0.00803;
+    1.13, -0.0498, -0.00749;
+    1.14, -0.0529, -0.00694;
+    1.15, -0.0560, -0.00639;
+    1.16, -0.0591, -0.00584;
+    1.17, -0.0622, -0.00529;
+    1.18, -0.0653, -0.00474;
+    1.19, -0.0684, -0.00419;
+    1.20, -0.0715, -0.00364;
+    1.21, -0.0746, -0.00309;
+    1.22, -0.0777, -0.00254;
+    1.23, -0.0808, -0.00199;
+    1.24, -0.0839, -0.00144;
+    1.25, -0.0870, -0.00089];
+
+x = data(:, 1); % x/c
+y_upper = data(:, 2); % y/c upper surface
+y_lower = data(:, 3); % y/c lower surface
+
+% Merge the coordinates for the full airfoil profile
+x_full = [flipud(x); x(2:end)]; % Upper surface (reversed) + Lower surface
+y_full = [flipud(y_upper); y_lower(2:end)];
+
+% Ensure x_full and y_full have unique x-values
+[x_full_unique, ia] = unique(x_full, 'stable');
+y_full_unique = y_full(ia);
+
+% Number of panels
+N = 128;
+
+% Discretize the airfoil into panels
+panel_x = linspace(0, 1, N+1); % Panel endpoints (x-coordinates)
+panel_y = interp1(x_full_unique, y_full_unique, panel_x, 'linear'); % Interpolate y-coordinates
+
+% Panel geometry
+x_mid = 0.5 * (panel_x(1:end-1) + panel_x(2:end)); % Control points (x)
+y_mid = 0.5 * (panel_y(1:end-1) + panel_y(2:end)); % Control points (y)
+
+% Panel lengths and angles
+dx = panel_x(2:end) - panel_x(1:end-1);
+dy = panel_y(2:end) - panel_y(1:end-1);
+lengths = sqrt(dx.^2 + dy.^2); % Panel lengths
+angles = atan2(dy, dx); % Panel angles w.r.t. horizontal
+
+% Compute influence coefficients (Source-Panel Method)
+A = zeros(N, N); % Influence matrix
+for i = 1:N
+    for j = 1:N
+        if i ~= j
+            % Geometry between control point i and panel j
+            x_diff = x_mid(i) - panel_x(j);
+            y_diff = y_mid(i) - panel_y(j);
+            r = sqrt(x_diff^2 + y_diff^2); % Distance
+            theta = atan2(y_diff, x_diff); % Angle
+            % Panel influence
+            A(i, j) = -lengths(j)/(2*pi) * (cos(theta - angles(j)) / r);
+        end
+    end
+end
+
+% Boundary conditions (Tangential flow)
+b = -sin(angles); % Tangential velocity due to freestream
+
+% Solve for source strengths
+sigma = A \ b';
+
+% Calculate velocity and pressure coefficients
+V_t = 1 + sigma; % Tangential velocity at midpoints
+Cp = 1 - V_t.^2; % Pressure coefficient at midpoints
+
+% Lift coefficient calculation
+AOA_deg = [-3, -4, -5, -6, -7]; % Angles of attack
+AOA_rad = deg2rad(AOA_deg);
+CL = zeros(size(AOA_deg));
+
+% Use only midpoints for Cp (N-1 elements)
+Cp_mid = Cp(1:end-1); % Adjusted to N-1 elements
+lengths_mid = lengths(1:end-1); % Adjusted lengths for midpoints
+angles_mid = angles(1:end-1); % Adjusted angles for midpoints
+
+for k = 1:length(AOA_rad)
+    alpha = AOA_rad(k);
+    % Calculate CL using panel midpoints and lengths
+    CL(k) = sum(-Cp_mid .* lengths_mid .* cos(angles_mid - alpha)); % Adjusted angles (N-1 elements)
+end
+
+% Plot Cp vs x
+figure;
+hold on;
+plot(x_mid(1:N/2), Cp(1:N/2), 'bo-', 'DisplayName', 'Upper Surface');
+plot(x_mid(N/2+1:end), Cp(N/2+1:end), 'ro-', 'DisplayName', 'Lower Surface');
+grid on;
+xlabel('x/c'); ylabel('Cp');
+legend; title('Pressure Coefficient Distribution');
+hold off;
+
+% Plot CL vs AOA
+figure;
+plot(AOA_deg, CL, 'ko-', 'LineWidth', 1.5);
+grid on;
+xlabel('AOA (degrees)'); ylabel('CL');
+title('Lift Coefficient vs Angle of Attack');
